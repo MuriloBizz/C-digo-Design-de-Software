@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/C-digo-Design-de-Software.iml" filepath="$PROJECT_DIR$/.idea/C-digo-Design-de-Software.iml" />
-      <module fileurl="file://$PROJECT_DIR$/LojaJogos/LojaJogos.iml" filepath="$PROJECT_DIR$/LojaJogos/LojaJogos.iml" />
     </modules>
   </component>
 </project>

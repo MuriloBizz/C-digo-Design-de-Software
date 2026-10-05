@@ -1,4 +1,4 @@
-module com.example.lojajogos {
+module com.example.loja {
     requires javafx.controls;
     requires javafx.fxml;
 
