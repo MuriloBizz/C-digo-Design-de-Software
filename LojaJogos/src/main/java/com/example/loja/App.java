@@ -1,19 +1,18 @@
 package com.example.loja;
 
+import com.example.loja.catalogo.CatalogoJogos;
+import com.example.loja.util.Navegador;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class App extends Application {
+
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
+    public void start(Stage stage) {
+        CatalogoJogos.getInstancia(); // carrega o catálogo ao iniciar (eager)
+        stage.setTitle("Forja - Loja de Jogos");
+        Navegador.iniciar(stage, 1000, 700);
+        Navegador.ir("catalogo");
         stage.show();
     }
 

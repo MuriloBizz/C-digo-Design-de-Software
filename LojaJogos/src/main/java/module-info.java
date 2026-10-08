@@ -13,4 +13,5 @@ module com.example.loja {
     exports com.example.loja.estado;
     exports com.example.loja.observer;
     exports com.example.loja.service;
+    exports com.example.loja.util;
 }
