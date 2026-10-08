@@ -22,11 +22,12 @@ public class Pedido {
     private final BigDecimal desconto;
     private final BigDecimal total;
     private final String descricaoDesconto;
+    private final Usuario usuario;
 
     private EstadoPedido estado;
     private final List<PedidoObserver> observers = new ArrayList<>();
 
-    public Pedido(Carrinho carrinho) {
+    public Pedido(Carrinho carrinho, Usuario usuario) {
         if (carrinho == null || carrinho.isVazio()) {
             throw new IllegalArgumentException("Não é possível criar um pedido com o carrinho vazio.");
         }
@@ -43,6 +44,14 @@ public class Pedido {
         this.descricaoDesconto = carrinho.getEstrategiaDesconto().getDescricao();
 
         this.estado = new PedidoCriado();
+
+        if (usuario == null) {
+            throw new IllegalArgumentException("O usuário é obrigatório.");
+        }
+        if (carrinho == null || carrinho.isVazio()) {
+            throw new IllegalArgumentException("Não é possível criar um pedido com o carrinho vazio.");
+        }
+        this.usuario = usuario;
     }
 
     // ---- Observer (Subject) ----
@@ -99,6 +108,7 @@ public class Pedido {
     public String getDescricaoDesconto() { return descricaoDesconto; }
     public EstadoPedido getEstado() { return estado; }
     public String getNomeEstado() { return estado.getNome(); }
+    public Usuario getUsuario() { return usuario; }
 
     @Override
     public String toString() {
