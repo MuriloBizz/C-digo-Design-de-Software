@@ -1,4 +1,9 @@
 package com.example.loja.observer;
 
-public class PedidoObserver {
+import com.example.loja.estado.EstadoPedido;
+import com.example.loja.model.Pedido;
+
+public interface PedidoObserver {
+
+    void atualizar(Pedido pedido, EstadoPedido estadoAnterior);
 }

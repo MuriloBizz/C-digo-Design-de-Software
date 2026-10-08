@@ -1,4 +1,4 @@
 package com.example.loja.model;
 
-public class Pagamneto {
+public class Pagamento {
 }
