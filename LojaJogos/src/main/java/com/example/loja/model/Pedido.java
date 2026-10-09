@@ -17,22 +17,29 @@ public class Pedido {
 
     private final int id;
     private final LocalDateTime criadoEm;
+    private final Usuario usuario;
     private final List<ItemCarrinho> itens = new ArrayList<>();
     private final BigDecimal subtotal;
     private final BigDecimal desconto;
     private final BigDecimal total;
     private final String descricaoDesconto;
-    private final Usuario usuario;
 
     private EstadoPedido estado;
     private final List<PedidoObserver> observers = new ArrayList<>();
 
-    public Pedido(Carrinho carrinho, Usuario usuario) {
+    public Pedido(Usuario usuario, Carrinho carrinho) {
+
+        if (usuario == null) {
+            throw new IllegalArgumentException("O usuário é obrigatório.");
+        }
+
         if (carrinho == null || carrinho.isVazio()) {
             throw new IllegalArgumentException("Não é possível criar um pedido com o carrinho vazio.");
         }
         this.id = SEQUENCIA.getAndIncrement();
         this.criadoEm = LocalDateTime.now();
+        this.usuario = usuario;
+
 
         // Cópia dos itens: o pedido não pode mudar se o carrinho for alterado ou limpo depois
         for (ItemCarrinho item : carrinho.getItens()) {
@@ -51,7 +58,6 @@ public class Pedido {
         if (carrinho == null || carrinho.isVazio()) {
             throw new IllegalArgumentException("Não é possível criar um pedido com o carrinho vazio.");
         }
-        this.usuario = usuario;
     }
 
     // ---- Observer (Subject) ----

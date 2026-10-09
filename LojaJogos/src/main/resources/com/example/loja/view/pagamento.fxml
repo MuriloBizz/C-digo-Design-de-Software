@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.loja.controller.PagamentoController"
+            style="-fx-background-color: #1e1e24;">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <top>
+        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 0 0 20 0;">
+            <Label text="Pagamento" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #ff4500;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="lblEstado"
+                   style="-fx-background-color: #2b2b36; -fx-text-fill: white; -fx-padding: 6 12; -fx-background-radius: 4;"/>
+            <Button fx:id="btnVoltar" text="← Voltar ao catálogo" onAction="#voltarAoCatalogo"
+                    style="-fx-background-color: #444; -fx-text-fill: white; -fx-cursor: hand;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" alignment="TOP_CENTER">
+            <VBox spacing="12" maxWidth="520"
+                  style="-fx-background-color: #2b2b36; -fx-background-radius: 8;">
+                <padding>
+                    <Insets top="25" right="25" bottom="25" left="25"/>
+                </padding>
+
+                <Label fx:id="lblPedido" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                <Label fx:id="lblItens" wrapText="true" style="-fx-text-fill: lightgray;"/>
+
+                <Region prefHeight="8"/>
+
+                <Label fx:id="lblSubtotal" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+                <Label fx:id="lblDesconto" style="-fx-text-fill: #ff9966; -fx-font-size: 14px;"/>
+                <Label fx:id="lblTotal" style="-fx-text-fill: lightgreen; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+                <Region prefHeight="8"/>
+
+                <Label text="Método de pagamento" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                <ComboBox fx:id="cbMetodo" maxWidth="Infinity" promptText="Selecione..."/>
+
+                <Label fx:id="lblMensagem" wrapText="true" style="-fx-text-fill: #ff9966;"/>
+
+                <HBox spacing="10">
+                    <Button fx:id="btnPagar" text="Pagar" onAction="#pagar" HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                            style="-fx-background-color: #ff4500; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 15px;"/>
+                    <Button fx:id="btnCancelar" text="Cancelar pedido" onAction="#cancelar" HBox.hgrow="ALWAYS" maxWidth="Infinity"
+                            style="-fx-background-color: #b3261e; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 15px;"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

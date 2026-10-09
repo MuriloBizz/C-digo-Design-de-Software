@@ -3,6 +3,7 @@ package com.example.loja.util;
 import com.example.loja.model.Carrinho;
 import com.example.loja.model.Pedido;
 import com.example.loja.model.Usuario;
+import com.example.loja.observer.LogObserver;
 
 public final class Sessao {
 
@@ -21,4 +22,10 @@ public final class Sessao {
     public static Pedido getPedidoAtual() { return pedidoAtual; }
 
     public static void setPedidoAtual(Pedido pedido) { pedidoAtual = pedido; }
+
+    private static LogObserver logPedido = new LogObserver();
+
+    public static LogObserver getLogPedido() { return logPedido; }
+
+    public static void novoLog() { logPedido = new LogObserver(); }
 }

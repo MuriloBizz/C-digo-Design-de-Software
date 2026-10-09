@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.loja.controller.CarrinhoController"
+            style="-fx-background-color: #1e1e24;">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <top>
+        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 0 0 20 0;">
+            <Label text="Carrinho" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #ff4500;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="← Voltar ao catálogo" onAction="#voltarAoCatalogo"
+                    style="-fx-background-color: #444; -fx-text-fill: white; -fx-cursor: hand;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15">
+            <TableView fx:id="tabelaItens" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colJogo" text="Jogo" prefWidth="320"/>
+                    <TableColumn fx:id="colPreco" text="Preço unit." prefWidth="120"/>
+                    <TableColumn fx:id="colQuantidade" text="Qtd." prefWidth="70"/>
+                    <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="120"/>
+                    <TableColumn fx:id="colAcao" text="" prefWidth="110"/>
+                </columns>
+            </TableView>
+            <Label fx:id="lblVazio" text="Seu carrinho está vazio."
+                   style="-fx-text-fill: lightgray; -fx-font-size: 16px;"/>
+        </VBox>
+    </center>
+
+    <right>
+        <VBox spacing="12" prefWidth="280"
+              style="-fx-background-color: #2b2b36; -fx-background-radius: 8;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <BorderPane.margin>
+                <Insets left="20"/>
+            </BorderPane.margin>
+
+            <Label text="Desconto" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;"/>
+            <ComboBox fx:id="cbDesconto" maxWidth="Infinity"/>
+
+            <VBox fx:id="boxCupom" spacing="6" visible="false" managed="false">
+                <TextField fx:id="txtCupom" promptText="Código do cupom"/>
+                <Button text="Aplicar cupom" onAction="#aplicarCupom" maxWidth="Infinity"
+                        style="-fx-background-color: #444; -fx-text-fill: white; -fx-cursor: hand;"/>
+                <Label fx:id="lblCupomMensagem" wrapText="true" style="-fx-text-fill: lightgray;"/>
+            </VBox>
+
+            <Label fx:id="lblDescricaoDesconto" wrapText="true" style="-fx-text-fill: lightgray;"/>
+
+            <Region prefHeight="10"/>
+
+            <Label fx:id="lblSubtotal" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            <Label fx:id="lblDesconto" style="-fx-text-fill: #ff9966; -fx-font-size: 14px;"/>
+            <Label fx:id="lblTotal" style="-fx-text-fill: lightgreen; -fx-font-size: 22px; -fx-font-weight: bold;"/>
+
+            <Button fx:id="btnFinalizar" text="Finalizar compra" onAction="#finalizarCompra"
+                    maxWidth="Infinity"
+                    style="-fx-background-color: #ff4500; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 15px;"/>
+        </VBox>
+    </right>
+</BorderPane>
