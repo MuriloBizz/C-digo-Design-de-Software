@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.loja.controller.PedidoController"
+            styleClass="tela">
+    <top>
+        <VBox styleClass="cabecalho" spacing="6">
+            <Label text="Seu pedido" styleClass="titulo"/>
+            <Label fx:id="estado" styleClass="estado"/>
+        </VBox>
+    </top>
+    <center>
+        <VBox spacing="8">
+            <padding><Insets top="16" bottom="16"/></padding>
+            <Label text="Notificações"/>
+            <ListView fx:id="listaNotificacoes" VBox.vgrow="ALWAYS">
+                <placeholder><Label text="Nenhuma notificação."/></placeholder>
+            </ListView>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox spacing="12" styleClass="rodape">
+            <Button text="Voltar ao catálogo" onAction="#voltar"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Ver biblioteca" onAction="#abrirBiblioteca" styleClass="primario"/>
+        </HBox>
+    </bottom>
+</BorderPane>

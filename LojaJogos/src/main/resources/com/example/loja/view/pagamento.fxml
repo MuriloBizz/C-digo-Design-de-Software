@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.loja.controller.PagamentoController"
+            styleClass="tela">
+    <top>
+        <HBox styleClass="cabecalho" spacing="10">
+            <Button text="← Carrinho" onAction="#voltar"/>
+            <Label text="Pagamento" styleClass="titulo"/>
+        </HBox>
+    </top>
+    <center>
+        <VBox spacing="14" styleClass="cartao" maxWidth="420">
+            <Label fx:id="total" styleClass="total"/>
+            <Label text="Forma de pagamento"/>
+            <ChoiceBox fx:id="metodoPagamento" maxWidth="Infinity"/>
+            <Button text="Pagar" onAction="#pagar" styleClass="primario" maxWidth="Infinity"/>
+            <Button text="Simular pagamento recusado" onAction="#simularRecusa" maxWidth="Infinity"/>
+        </VBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.loja.controller.CatalogoController"
+            styleClass="tela">
+    <top>
+        <HBox styleClass="cabecalho" spacing="10">
+            <Label text="Forja · Catálogo" styleClass="titulo"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Biblioteca" onAction="#abrirBiblioteca"/>
+            <Button text="Carrinho" onAction="#abrirCarrinho" styleClass="primario"/>
+        </HBox>
+    </top>
+    <center>
+        <ListView fx:id="listaJogos">
+            <BorderPane.margin><Insets top="16" bottom="16"/></BorderPane.margin>
+        </ListView>
+    </center>
+    <bottom>
+        <HBox spacing="12" styleClass="rodape">
+            <Label fx:id="mensagem" styleClass="mensagem"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Adicionar ao carrinho" onAction="#adicionarAoCarrinho" styleClass="primario"/>
+        </HBox>
+    </bottom>
+</BorderPane>
