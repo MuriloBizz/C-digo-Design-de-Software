@@ -11,9 +11,8 @@ public class DescontoCupom implements EstrategiaDesconto {
 
     // Cupons fixos do sistema: código -> percentual
     private static final Map<String, BigDecimal> CUPONS = Map.of(
-            "PRIMEIRACOMPRA", new BigDecimal("15"),
-            "GAMER20", new BigDecimal("20"),
-            "BLACKFRIDAY", new BigDecimal("30")
+            "TESTE50", new BigDecimal("50"),
+            "TESTE100", new BigDecimal("100")
     );
 
     private final String codigo;

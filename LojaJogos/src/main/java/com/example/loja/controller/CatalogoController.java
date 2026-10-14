@@ -1,8 +1,8 @@
 package com.example.loja.controller;
 
 import com.example.loja.catalogo.CatalogoJogos;
-import com.example.loja.model.ItemCarrinho;
 import com.example.loja.model.Jogo;
+import com.example.loja.service.CarrinhoService;
 import com.example.loja.util.Navegador;
 import com.example.loja.util.Sessao;
 import javafx.fxml.FXML;
@@ -29,6 +29,7 @@ public class CatalogoController {
     @FXML private Button btnCarrinho;
 
     private final CatalogoJogos catalogo = CatalogoJogos.getInstancia(); // Singleton
+    private final CarrinhoService carrinhoService = new CarrinhoService();
     private FlowPane painelJogos;
 
     @FXML
@@ -37,7 +38,6 @@ public class CatalogoController {
         atualizarContador();
     }
 
-    // RF07 + RF08: catálogo com pesquisa por nome
     private void mostrarCatalogo() {
         TextField busca = new TextField();
         busca.setPromptText("Pesquisar jogos por nome...");
@@ -106,14 +106,13 @@ public class CatalogoController {
         } else {
             botao.setText("Adicionar ao carrinho");
             botao.setOnAction(e -> {
-                Sessao.getCarrinho().adicionarJogo(jogo);
+                carrinhoService.adicionarJogo(Sessao.getCarrinho(), Sessao.getUsuario(), jogo);
                 atualizarContador();
             });
         }
         return botao;
     }
 
-    // RF10: página do jogo (título, preço, descrição e requisitos)
     private void mostrarPaginaJogo(Jogo jogo) {
         VBox pagina = new VBox(20);
         pagina.setPadding(new Insets(20));
@@ -161,17 +160,18 @@ public class CatalogoController {
     }
 
     private void atualizarContador() {
-        int total = Sessao.getCarrinho().getItens().stream()
-                .mapToInt(ItemCarrinho::getQuantidade)
-                .sum();
-        btnCarrinho.setText("Carrinho (" + total + ")");
+        btnCarrinho.setText("Carrinho ("
+                + carrinhoService.quantidadeTotal(Sessao.getCarrinho()) + ")");
     }
 
     @FXML
     private void irParaCarrinho() {
         Navegador.ir("carrinho");
     }
-
+    @FXML
+    private void irParaPedidos() {
+        Navegador.ir("pedido");
+    }
     @FXML
     private void irParaBiblioteca() {
         Navegador.ir("biblioteca");

@@ -4,9 +4,9 @@ import com.example.loja.desconto.DescontoCombo;
 import com.example.loja.desconto.DescontoCupom;
 import com.example.loja.desconto.DescontoPercentual;
 import com.example.loja.desconto.EstrategiaDesconto;
-import com.example.loja.desconto.SemDesconto;
 import com.example.loja.model.Carrinho;
 import com.example.loja.model.ItemCarrinho;
+import com.example.loja.service.CarrinhoService;
 import com.example.loja.util.Navegador;
 import com.example.loja.util.Sessao;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,11 +21,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-import java.math.BigDecimal;
-
 public class CarrinhoController {
 
-    /** Opções do ComboBox: cada uma sabe criar a sua estratégia. */
     private enum OpcaoDesconto {
         NENHUM("Sem desconto"),
         PERCENTUAL("Desconto de 10%"),
@@ -58,6 +55,7 @@ public class CarrinhoController {
     @FXML private Button btnFinalizar;
 
     private final Carrinho carrinho = Sessao.getCarrinho();
+    private final CarrinhoService carrinhoService = new CarrinhoService();
 
     @FXML
     private void initialize() {
@@ -82,7 +80,7 @@ public class CarrinhoController {
                 remover.setStyle("-fx-background-color: #b3261e; -fx-text-fill: white; -fx-cursor: hand;");
                 remover.setOnAction(e -> {
                     ItemCarrinho item = getTableView().getItems().get(getIndex());
-                    carrinho.removerJogo(item.getJogo());
+                    carrinhoService.removerJogo(carrinho, item.getJogo());
                     atualizarTela();
                 });
             }
@@ -95,7 +93,7 @@ public class CarrinhoController {
         });
     }
 
-    // ---- Strategy: o ComboBox escolhe qual estratégia o Carrinho usa ----
+    // ---- Strategy: o ComboBox escolhe, o service instancia a estratégia ----
 
     private void configurarDesconto() {
         cbDesconto.setItems(FXCollections.observableArrayList(OpcaoDesconto.values()));
@@ -107,27 +105,17 @@ public class CarrinhoController {
             mostrarCampoCupom(opcao == OpcaoDesconto.CUPOM);
             lblCupomMensagem.setText("");
 
-            if (opcao == OpcaoDesconto.CUPOM) {
-                // Só vira estratégia de cupom quando o usuário aplicar um código válido
-                carrinho.setEstrategiaDesconto(new SemDesconto());
-            } else {
-                carrinho.setEstrategiaDesconto(criarEstrategia(opcao));
+            switch (opcao) {
+                case PERCENTUAL -> carrinhoService.aplicarDescontoPercentual(carrinho);
+                case COMBO -> carrinhoService.aplicarDescontoCombo(carrinho);
+                default -> carrinhoService.removerDesconto(carrinho); // NENHUM e CUPOM (até aplicar o código)
             }
             atualizarTela();
         });
     }
 
-    private EstrategiaDesconto criarEstrategia(OpcaoDesconto opcao) {
-        return switch (opcao) {
-            case PERCENTUAL -> new DescontoPercentual(new BigDecimal("10"));
-            case COMBO -> new DescontoCombo();
-            default -> new SemDesconto();
-        };
-    }
-
-    /** Descobre qual opção corresponde à estratégia já guardada no carrinho (ao voltar para a tela). */
     private OpcaoDesconto opcaoAtual() {
-        EstrategiaDesconto atual = carrinho.getEstrategiaDesconto();
+        EstrategiaDesconto atual = carrinhoService.getEstrategiaAtual(carrinho);
         if (atual instanceof DescontoPercentual) return OpcaoDesconto.PERCENTUAL;
         if (atual instanceof DescontoCupom) return OpcaoDesconto.CUPOM;
         if (atual instanceof DescontoCombo) return OpcaoDesconto.COMBO;
@@ -141,18 +129,11 @@ public class CarrinhoController {
 
     @FXML
     private void aplicarCupom() {
-        String codigo = txtCupom.getText();
-        if (!DescontoCupom.cupomValido(codigo)) {
-            carrinho.setEstrategiaDesconto(new SemDesconto());
-            lblCupomMensagem.setText("Cupom inválido.");
-        } else {
-            carrinho.setEstrategiaDesconto(new DescontoCupom(codigo));
-            lblCupomMensagem.setText("Cupom aplicado!");
-        }
+        boolean aplicado = carrinhoService.aplicarCupom(carrinho, txtCupom.getText());
+        lblCupomMensagem.setText(aplicado ? "Cupom aplicado!" : "Cupom inválido.");
         atualizarTela();
     }
 
-    // ---- Atualização da tela ----
 
     private void atualizarTela() {
         tabelaItens.setItems(FXCollections.observableArrayList(carrinho.getItens()));
@@ -167,8 +148,6 @@ public class CarrinhoController {
         lblTotal.setText(String.format("Total: R$ %.2f", carrinho.getTotal()));
         lblDescricaoDesconto.setText("Regra aplicada: " + carrinho.getEstrategiaDesconto().getDescricao());
     }
-
-    // ---- Navegação ----
 
     @FXML
     private void voltarAoCatalogo() {

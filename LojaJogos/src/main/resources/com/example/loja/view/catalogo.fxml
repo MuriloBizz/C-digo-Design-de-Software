@@ -22,6 +22,8 @@
             <Region HBox.hgrow="ALWAYS"/>
             <Button fx:id="btnCarrinho" text="Carrinho (0)" onAction="#irParaCarrinho"
                     style="-fx-background-color: #ff4500; -fx-text-fill: white; -fx-cursor: hand;"/>
+            <Button text="Pedidos" onAction="#irParaPedidos"
+                    style="-fx-background-color: #444; -fx-text-fill: white; -fx-cursor: hand;"/>
             <Button text="Biblioteca" onAction="#irParaBiblioteca"
                     style="-fx-background-color: #444; -fx-text-fill: white; -fx-cursor: hand;"/>
         </HBox>

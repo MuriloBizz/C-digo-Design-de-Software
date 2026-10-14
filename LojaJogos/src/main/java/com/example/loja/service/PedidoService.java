@@ -21,4 +21,7 @@ public class PedidoService {
         pedido.confirmar(); // State: Criado -> Aguardando pagamento
         return pedido;
     }
+    public void concluir(Pedido pedido) {
+        pedido.concluir(); // State: Pago -> Concluído (dispara os observers)
+    }
 }
