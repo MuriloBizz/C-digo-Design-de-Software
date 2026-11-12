@@ -14,4 +14,6 @@ module com.example.loja {
     exports com.example.loja.observer;
     exports com.example.loja.service;
     exports com.example.loja.util;
+    exports com.example.loja.repository;
+    opens com.example.loja.repository to javafx.fxml;
 }
