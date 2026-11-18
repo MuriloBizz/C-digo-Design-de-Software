@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import com.example.loja.service.BibliotecaService;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class BibliotecaController {
     @FXML
     private void initialize() {
         // Observer (resultado): estes jogos foram adicionados pelo BibliotecaObserver
-        List<Jogo> jogos = Sessao.getUsuario().getBiblioteca().getJogos();
+        List<Jogo> jogos = new BibliotecaService().listarJogos(Sessao.getUsuario().getId());
 
         for (Jogo jogo : jogos) {
             painelJogos.getChildren().add(criarCard(jogo));
