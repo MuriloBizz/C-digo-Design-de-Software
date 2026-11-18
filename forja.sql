@@ -79,7 +79,8 @@ CREATE TABLE IF NOT EXISTS pagamento (
 CREATE TABLE IF NOT EXISTS historico_pedido (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pedido_id INT NOT NULL,
-    transicao VARCHAR(255) NOT NULL,
+    estado_anterior VARCHAR(40),
+    estado_novo VARCHAR(40) NOT NULL,
     registrado_em DATETIME NOT NULL,
     CONSTRAINT fk_historico_pedido FOREIGN KEY (pedido_id) REFERENCES pedido(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
