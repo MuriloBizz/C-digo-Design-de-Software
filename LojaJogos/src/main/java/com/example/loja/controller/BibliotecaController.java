@@ -1,5 +1,7 @@
 package com.example.loja.controller;
 
+import com.example.loja.model.cruds.Bibliotecacrud;
+import com.example.loja.model.Biblioteca;
 import com.example.loja.model.Jogo;
 import com.example.loja.util.Navegador;
 import com.example.loja.util.Sessao;
@@ -12,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BibliotecaController {
 
@@ -19,10 +22,17 @@ public class BibliotecaController {
     @FXML private Label lblVazio;
     @FXML private Label lblQuantidade;
 
+    private final Bibliotecacrud bibliotecacrud = new Bibliotecacrud();
+
     @FXML
     private void initialize() {
-        // Observer (resultado): estes jogos foram adicionados pelo BibliotecaObserver
-        List<Jogo> jogos = Sessao.getUsuario().getBiblioteca().getJogos();
+        // Busca as entidades Biblioteca do usuário logado no banco de dados
+        List<Biblioteca> registrosBiblioteca = bibliotecacrud.listarPorUsuario(Sessao.getUsuario().getId());
+
+        // Extrai apenas os objetos Jogo de dentro dos registros da biblioteca
+        List<Jogo> jogos = registrosBiblioteca.stream()
+                .map(Biblioteca::getJogo)
+                .collect(Collectors.toList());
 
         for (Jogo jogo : jogos) {
             painelJogos.getChildren().add(criarCard(jogo));

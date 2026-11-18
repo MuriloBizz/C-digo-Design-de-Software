@@ -1,5 +1,6 @@
 package com.example.loja.service;
 
+import com.example.loja.model.cruds.Bibliotecacrud;
 import com.example.loja.desconto.DescontoCombo;
 import com.example.loja.desconto.DescontoCupom;
 import com.example.loja.desconto.DescontoPercentual;
@@ -15,12 +16,17 @@ import java.math.BigDecimal;
 public class CarrinhoService {
 
     private static final BigDecimal PERCENTUAL_PADRAO = new BigDecimal("10");
+    private final Bibliotecacrud bibliotecaDao = new Bibliotecacrud();
 
     // ---- Itens ----
 
-    /** Adiciona o jogo, a menos que o usuário já o possua. Retorna false se não adicionou. */
+    /** Adiciona o jogo, a menos que o usuário já o possua no banco. Retorna false se não adicionou. */
     public boolean adicionarJogo(Carrinho carrinho, Usuario usuario, Jogo jogo) {
-        if (usuario.getBiblioteca().possui(jogo)) {
+        // Verifica no banco se o usuário já possui este jogo na biblioteca
+        boolean jaPossui = bibliotecaDao.listarPorUsuario(usuario.getId()).stream()
+                .anyMatch(b -> b.getJogo().getId().equals(jogo.getId()));
+
+        if (jaPossui) {
             return false;
         }
         carrinho.adicionarJogo(jogo);
