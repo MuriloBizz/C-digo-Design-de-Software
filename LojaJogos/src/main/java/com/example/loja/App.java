@@ -1,6 +1,7 @@
 package com.example.loja;
 
 import com.example.loja.catalogo.CatalogoJogos;
+import com.example.loja.util.JPAUtil;
 import com.example.loja.util.Navegador;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -18,5 +19,9 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+    @Override
+    public void stop() {
+        JPAUtil.fechar();
     }
 }
