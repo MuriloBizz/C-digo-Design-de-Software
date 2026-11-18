@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS pedido (
     desconto DECIMAL(10, 2) NOT NULL,
     total DECIMAL(10, 2) NOT NULL,
     descricao_desconto VARCHAR(100),
+    status VARCHAR(40) NOT NULL,
     CONSTRAINT fk_pedido_usuario FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
