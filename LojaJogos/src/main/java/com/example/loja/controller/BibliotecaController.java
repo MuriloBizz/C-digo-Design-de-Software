@@ -1,5 +1,7 @@
 package com.example.loja.controller;
 
+import com.example.loja.model.cruds.Bibliotecacrud;
+import com.example.loja.model.Biblioteca;
 import com.example.loja.model.Jogo;
 import com.example.loja.util.Navegador;
 import com.example.loja.util.Sessao;
@@ -13,12 +15,15 @@ import javafx.scene.text.FontWeight;
 import com.example.loja.service.BibliotecaService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BibliotecaController {
 
     @FXML private FlowPane painelJogos;
     @FXML private Label lblVazio;
     @FXML private Label lblQuantidade;
+
+    private final Bibliotecacrud bibliotecacrud = new Bibliotecacrud();
 
     @FXML
     private void initialize() {

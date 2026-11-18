@@ -1,11 +1,9 @@
 package com.example.loja.catalogo;
 
+import com.example.loja.model.cruds.Jogocrud;
 import com.example.loja.model.Jogo;
 import com.example.loja.repository.JogoRepository;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,11 +11,10 @@ import java.util.stream.Collectors;
 public class CatalogoJogos {
 
     private static CatalogoJogos instancia;
-
-    private final List<Jogo> jogos = new ArrayList<>();
+    private final Jogocrud jogocrud = new Jogocrud();
 
     private CatalogoJogos() {
-        carregarJogos();
+        // Construtor privado para o padrão Singleton
     }
 
     public static synchronized CatalogoJogos getInstancia() {
@@ -63,18 +60,17 @@ public class CatalogoJogos {
     }
 
     public List<Jogo> listar() {
-        return Collections.unmodifiableList(jogos);
+        return jogocrud.listarTodos();
     }
 
     public Optional<Jogo> buscarPorId(int id) {
-        return jogos.stream()
-                .filter(j -> j.getId() != null && j.getId() == id)
-                .findFirst();
+        Jogo jogo = jogocrud.buscarPorId(id);
+        return Optional.ofNullable(jogo);
     }
 
     public List<Jogo> buscarPorTitulo(String consulta) {
         String termo = consulta == null ? "" : consulta.trim().toLowerCase();
-        return jogos.stream()
+        return jogocrud.listarTodos().stream()
                 .filter(j -> j.getTitulo().toLowerCase().contains(termo))
                 .collect(Collectors.toList());
     }

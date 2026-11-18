@@ -1,5 +1,6 @@
 package com.example.loja.service;
 
+import com.example.loja.model.cruds.Bibliotecacrud;
 import com.example.loja.desconto.DescontoCombo;
 import com.example.loja.desconto.DescontoCupom;
 import com.example.loja.desconto.DescontoPercentual;
@@ -18,7 +19,7 @@ public class CarrinhoService {
     private final BibliotecaService biblioteca = new BibliotecaService();
     // ---- Itens ----
 
-    /** Adiciona o jogo, a menos que o usuário já o possua. Retorna false se não adicionou. */
+    /** Adiciona o jogo, a menos que o usuário já o possua no banco. Retorna false se não adicionou. */
     public boolean adicionarJogo(Carrinho carrinho, Usuario usuario, Jogo jogo) {
         if (biblioteca.possui(usuario.getId(), jogo)) {
             return false;

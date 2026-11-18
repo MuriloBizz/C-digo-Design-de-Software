@@ -1,17 +1,18 @@
 package com.example.loja.demo;
 
+import java.math.BigDecimal;
+
 import com.example.loja.model.Carrinho;
 import com.example.loja.model.HistoricoPedido;
 import com.example.loja.model.ItemCarrinho;
 import com.example.loja.model.Jogo;
 import com.example.loja.model.Pedido;
-import com.example.loja.model.Usuario;
 import com.example.loja.repository.HistoricoPedidoRepository;
 import com.example.loja.repository.ItemCarrinhoRepository;
 import com.example.loja.util.JPAUtil;
-import jakarta.persistence.EntityManager;
+import com.example.loja.util.Sessao;
 
-import java.math.BigDecimal;
+import jakarta.persistence.EntityManager;
 
 public class TesteMinhasClasses {
     public static void main(String[] args) {
@@ -24,7 +25,7 @@ public class TesteMinhasClasses {
 
         Carrinho carrinho = new Carrinho();
         carrinho.adicionarJogo(jogo);
-        Pedido pedido = new Pedido(new Usuario("Teste", "teste@email.com"), carrinho);
+        Pedido pedido = new Pedido(Sessao.getUsuario(), carrinho);   // usuário já salvo no banco
         em.persist(pedido);                       // a cascata grava o item
         em.getTransaction().commit();
         Integer pedidoId = pedido.getId();

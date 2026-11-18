@@ -3,6 +3,7 @@ package com.example.loja.util;
 import com.example.loja.model.Carrinho;
 import com.example.loja.model.Pedido;
 import com.example.loja.model.Usuario;
+import com.example.loja.model.cruds.Usuariocrud;
 import com.example.loja.observer.LogObserver;
 import com.example.loja.repository.UsuarioRepository;
 
