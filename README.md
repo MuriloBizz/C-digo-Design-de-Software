@@ -1,5 +1,5 @@
-# C-digo-Design-de-Software
-Código do projeto de design de software
+# Codigo-Design-de-Software
+Código do projeto de design de software RA2 e RA3
 
 # Loja de Jogos
 
