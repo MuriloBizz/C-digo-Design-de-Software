@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import com.example.loja.service.BibliotecaService;
 
 public class CatalogoController {
 
@@ -30,6 +31,7 @@ public class CatalogoController {
 
     private final CatalogoJogos catalogo = CatalogoJogos.getInstancia(); // Singleton
     private final CarrinhoService carrinhoService = new CarrinhoService();
+    private final BibliotecaService biblioteca = new BibliotecaService();
     private FlowPane painelJogos;
 
     @FXML
@@ -100,7 +102,7 @@ public class CatalogoController {
         Button botao = new Button();
         botao.setStyle("-fx-background-color: #ff4500; -fx-text-fill: white; -fx-cursor: hand;");
 
-        if (Sessao.getUsuario().getBiblioteca().possui(jogo)) {
+        if (biblioteca.possui(Sessao.getUsuario().getId(), jogo)) {
             botao.setText("Na biblioteca");
             botao.setDisable(true);
         } else {

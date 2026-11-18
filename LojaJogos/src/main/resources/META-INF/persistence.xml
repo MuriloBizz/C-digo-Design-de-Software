@@ -14,6 +14,7 @@
         <class>com.example.loja.model.ItemPedido</class>
         <class>com.example.loja.model.Pagamento</class>
         <class>com.example.loja.model.HistoricoPedido</class>
+        <class>com.example.loja.model.ItemCarrinho</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>

@@ -1,5 +1,6 @@
 package com.example.loja.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,58 +8,55 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
-import java.util.Objects;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "biblioteca")
+@Table(name = "biblioteca",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id", "jogo_id"}))
 public class Biblioteca {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "jogo_id", nullable = false)
     private Jogo jogo;
 
-    protected Biblioteca() { }
+    @Column(name = "adquirido_em", nullable = false)
+    private LocalDateTime adquiridoEm;
+
+    protected Biblioteca() { }                 // exigido pelo JPA
 
     public Biblioteca(Usuario usuario, Jogo jogo) {
         if (usuario == null || jogo == null) {
-            throw new IllegalArgumentException("Usuário e Jogo são obrigatórios na biblioteca.");
+            throw new IllegalArgumentException("Usuário e jogo são obrigatórios.");
         }
         this.usuario = usuario;
         this.jogo = jogo;
+        this.adquiridoEm = LocalDateTime.now();
     }
 
     public Integer getId() { return id; }
     public Usuario getUsuario() { return usuario; }
     public Jogo getJogo() { return jogo; }
+    public LocalDateTime getAdquiridoEm() { return adquiridoEm; }
 
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
-    public void setJogo(Jogo jogo) { this.jogo = jogo; }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Biblioteca)) return false;
-        Biblioteca that = (Biblioteca) o;
-        return Objects.equals(usuario, that.usuario) && Objects.equals(jogo, that.jogo);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(usuario, jogo);
+    public void setAdquiridoEm(LocalDateTime adquiridoEm) {
+        if (adquiridoEm == null) {
+            throw new IllegalArgumentException("A data de aquisição é obrigatória.");
+        }
+        this.adquiridoEm = adquiridoEm;
     }
 
     @Override
     public String toString() {
-        return "Biblioteca [Usuário=" + (usuario != null ? usuario.getNome() : "null") +
-                ", Jogo=" + (jogo != null ? jogo.getTitulo() : "null") + "]";
+        return usuario.getNome() + " possui " + jogo.getTitulo();
     }
 }

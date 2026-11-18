@@ -16,17 +16,12 @@ import java.math.BigDecimal;
 public class CarrinhoService {
 
     private static final BigDecimal PERCENTUAL_PADRAO = new BigDecimal("10");
-    private final Bibliotecacrud bibliotecaDao = new Bibliotecacrud();
-
+    private final BibliotecaService biblioteca = new BibliotecaService();
     // ---- Itens ----
 
     /** Adiciona o jogo, a menos que o usuário já o possua no banco. Retorna false se não adicionou. */
     public boolean adicionarJogo(Carrinho carrinho, Usuario usuario, Jogo jogo) {
-        // Verifica no banco se o usuário já possui este jogo na biblioteca
-        boolean jaPossui = bibliotecaDao.listarPorUsuario(usuario.getId()).stream()
-                .anyMatch(b -> b.getJogo().getId().equals(jogo.getId()));
-
-        if (jaPossui) {
+        if (biblioteca.possui(usuario.getId(), jogo)) {
             return false;
         }
         carrinho.adicionarJogo(jogo);

@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import com.example.loja.service.BibliotecaService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,13 +27,8 @@ public class BibliotecaController {
 
     @FXML
     private void initialize() {
-        // Busca as entidades Biblioteca do usuário logado no banco de dados
-        List<Biblioteca> registrosBiblioteca = bibliotecacrud.listarPorUsuario(Sessao.getUsuario().getId());
-
-        // Extrai apenas os objetos Jogo de dentro dos registros da biblioteca
-        List<Jogo> jogos = registrosBiblioteca.stream()
-                .map(Biblioteca::getJogo)
-                .collect(Collectors.toList());
+        // Observer (resultado): estes jogos foram adicionados pelo BibliotecaObserver
+        List<Jogo> jogos = new BibliotecaService().listarJogos(Sessao.getUsuario().getId());
 
         for (Jogo jogo : jogos) {
             painelJogos.getChildren().add(criarCard(jogo));

@@ -5,7 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario")
@@ -15,13 +20,17 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 120)
+    @Column(nullable = false, length = 100)
     private String nome;
 
-    @Column(nullable = false, unique = true, length = 120)
+    @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    protected Usuario() { } // Exigido pelo JPA
+    // Lado inverso da relação: os registros de biblioteca deste usuário
+    @OneToMany(mappedBy = "usuario")
+    private List<Biblioteca> itensBiblioteca = new ArrayList<>();
+
+    protected Usuario() { }                    // exigido pelo JPA
 
     public Usuario(String nome, String email) {
         setNome(nome);
@@ -31,6 +40,10 @@ public class Usuario {
     public Integer getId() { return id; }
     public String getNome() { return nome; }
     public String getEmail() { return email; }
+
+    public List<Biblioteca> getItensBiblioteca() {
+        return Collections.unmodifiableList(itensBiblioteca);
+    }
 
     public void setNome(String nome) {
         if (nome == null || nome.isBlank()) {
@@ -47,18 +60,5 @@ public class Usuario {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Usuario)) return false;
-        Usuario outro = (Usuario) o;
-        return id != null && id.equals(outro.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() { return nome + " (" + email + ")"; }
+    public String toString() { return nome + " <" + email + ">"; }
 }
