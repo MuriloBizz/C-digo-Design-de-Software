@@ -1,10 +1,12 @@
 package com.example.loja.model.cruds;
 
+import java.util.List;
+
 import com.example.loja.model.Usuario;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import java.util.List;
 
 public class Usuariocrud {
 
@@ -44,6 +46,20 @@ public class Usuariocrud {
         EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    // READ (Buscar por e-mail)
+    public Usuario buscarPorEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email", Usuario.class)
+                    .setParameter("email", email)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null);
         } finally {
             em.close();
         }
